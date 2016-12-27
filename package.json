@@ -1,0 +1,26 @@
+{
+  "name": "anchor-scroller",
+  "version": "0.0.0",
+  "description": "Smoothly scroll to #anchors",
+  "main": "./distribution/AnchorScroller.js",
+  "module": "./distribution/AnchorScroller.es.js",
+  "types": "./types.d.ts",
+  "repository": "https://github.com/semlette/anchor-scroller.git",
+  "scripts": {
+    "build": "npm run build:umd && npm run build:es && npm run build:cjs",
+    "build:umd": "FORMAT=umd rollup --config rollup.config.js",
+    "build:es": "FORMAT=es rollup --config rollup.config.js",
+    "build:cjs": "FORMAT=cjs rollup --config rollup.config.js"
+  },
+  "author": "Andi Semler",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^2.1.4"
+  },
+  "devDependencies": {
+    "babel-preset-babili": "^0.0.9",
+    "eslint": "^3.12.2",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-typescript": "^0.8.1"
+  }
+}
