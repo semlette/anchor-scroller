@@ -77,6 +77,9 @@ class AnchorScroller {
 
     // Also stop if it cannot find an element
     // with `id` equal to `href`
+
+    // If the current scroll position is not
+    // equal to the anchors', start scrolling
     
     if (target.nodeName === 'A') {
       const _target = target as HTMLAnchorElement;
@@ -86,7 +89,9 @@ class AnchorScroller {
       const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
       if (!anchor) return;
       event.preventDefault();
-      new Scroller(anchor.getBoundingClientRect().top);
+      if (window.scrollY !== anchor.offsetTop) {
+        new Scroller(anchor.offsetTop);
+      }
     }
     else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A') {
       const parent = target.parentNode as HTMLAnchorElement;
@@ -96,7 +101,9 @@ class AnchorScroller {
       const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
       if (!anchor) return;
       event.preventDefault();
-      new Scroller(anchor.getBoundingClientRect().top);
+      if (window.scrollY !== anchor.offsetTop) {
+        new Scroller(anchor.offsetTop);
+      }
     }
   }
 

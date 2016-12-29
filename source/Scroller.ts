@@ -1,7 +1,14 @@
+import { LOCATION_ABOVE, LOCATION_UNDER } from './constants';
+
 /**
  * Handles the scrolling
  */
 class Scroller {
+
+  /**
+   * Anchor is above or under current scroll position.
+   */
+  private location: symbol = (window.scrollY > this.position) ? LOCATION_ABOVE : LOCATION_UNDER;
 
   /**
    * Last scroll position. Used to stop scrolling
@@ -25,18 +32,36 @@ class Scroller {
    * Scrolls the page
    */
   private scrollUnbound(): void {
-    if (window.scrollY >= this.position) {
-      cancelAnimationFrame(this.scroll);
-      return;
+    if (this.location === LOCATION_ABOVE) {
+      if (window.scrollY <= this.position) {
+        cancelAnimationFrame(this.scroll);
+        return;
+      }
+    }
+    else {
+      if (window.scrollY >= this.position) {
+        cancelAnimationFrame(this.scroll);
+        return;
+      }
     }
 
+    /**
+     * If it has not reached the target,
+     * but isn't scrolling, it has reached
+     * the top/bottom of the page
+     */
     if (this.last === window.scrollY) {
       cancelAnimationFrame(this.scroll);
       return;
     }
     this.last = window.scrollY;
 
-    window.scrollTo(window.scrollX, window.scrollY + 7);
+    if (this.location === LOCATION_ABOVE) {
+      window.scrollTo(undefined, window.scrollY - 1);
+    }
+    else {
+      window.scrollTo(undefined, window.scrollY + 1);
+    }
     requestAnimationFrame(this.scroll);
   }
 }
