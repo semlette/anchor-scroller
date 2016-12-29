@@ -47,7 +47,7 @@ class Scroller {
 
     /**
      * If it has not reached the target,
-     * but isn't scrolling, it has reached
+     * and isn't scrolling, it has reached
      * the top/bottom of the page
      */
     if (this.last === window.scrollY) {
