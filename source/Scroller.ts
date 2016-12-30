@@ -37,7 +37,7 @@ class Scroller {
   private scroll = this.scrollUnbound.bind(this);
 
 
-  constructor(private position: number, private customAnimation?: animationFunction | undefined) {
+  constructor(private position: number, private customAnimation?: animationFunction) {
     requestAnimationFrame(this.scroll);
   }
 
