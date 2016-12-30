@@ -7,8 +7,8 @@ export interface animationFunction {
 
 interface Options {
   checkParent?: boolean;
-  class?: string | undefined;
-  animation?: animationFunction | undefined;
+  class?: string;
+  animation?: animationFunction;
 }
 
 interface BoundEventHandlers {
