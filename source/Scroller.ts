@@ -6,6 +6,23 @@ import { animationFunction } from './AnchorScroller';
 class Scroller {
 
   /**
+   * Document length (height)
+   */
+  private documentHeight: number = Math.max(
+    document.body.scrollHeight,
+    document.body.offsetHeight,
+    document.documentElement.clientHeight,
+    document.documentElement.scrollHeight,
+    document.documentElement.offsetHeight
+  );
+
+  /**
+   * Anchor's position relative to the
+   * bottom of the page
+   */
+  private positionRelativeToBottom: number = this.documentHeight - this.position;
+  
+  /**
    * Elapsed time
    */
   private time: number = 0;
@@ -23,7 +40,7 @@ class Scroller {
   /**
    * Difference between start and finish
    */
-  private change: number = this.position - this.start;
+  private change: number = this.calculateChange();
 
   /**
    * Time increments
@@ -41,6 +58,15 @@ class Scroller {
     requestAnimationFrame(this.scroll);
   }
 
+  /**
+   * Calculates if it should scroll to the
+   * bottom of the page or to the anchor
+   */
+  private calculateChange(): number {
+    return this.positionRelativeToBottom < window.innerHeight
+      ? this.documentHeight - window.innerHeight - this.start
+      : this.position - this.start;
+  }
 
   /**
    * Scrolls the page
