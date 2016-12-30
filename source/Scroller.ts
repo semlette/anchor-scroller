@@ -49,7 +49,7 @@ class Scroller {
     this.time += this.increment;
 
     window.scrollTo(
-      undefined,
+      window.scrollX,
       this.customAnimation ? this.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
     );
 
