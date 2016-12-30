@@ -1,3 +1,5 @@
+import { animationFunction } from './AnchorScroller';
+
 /**
  * Handles the scrolling
  */
@@ -35,7 +37,7 @@ class Scroller {
   private scroll = this.scrollUnbound.bind(this);
 
 
-  constructor(private position: number) {
+  constructor(private position: number, private customAnimation?: animationFunction | undefined) {
     requestAnimationFrame(this.scroll);
   }
 
@@ -46,7 +48,10 @@ class Scroller {
   private scrollUnbound(): void {
     this.time += this.increment;
 
-    window.scrollTo(undefined, this.ease(this.time, this.start, this.change, this.duration));
+    window.scrollTo(
+      undefined,
+      this.customAnimation ? this.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
+    );
 
     if (this.time < this.duration) {
       requestAnimationFrame(this.scroll);

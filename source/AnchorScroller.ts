@@ -1,9 +1,14 @@
 import Scroller from './Scroller';
 
 
+export interface animationFunction {
+  (time: number, start: number, change: number, duration: number): number
+}
+
 interface Options {
   checkParent?: boolean;
-  class?: (string | undefined);
+  class?: string | undefined;
+  animation?: animationFunction | undefined;
 }
 
 interface BoundEventHandlers {
@@ -30,6 +35,7 @@ class AnchorScroller {
     this.options = {
       checkParent: false,
       class: undefined,
+      animation: undefined,
       ...optionalOptions
     };
     this.addListeners();
@@ -90,7 +96,7 @@ class AnchorScroller {
       if (!anchor) return;
       event.preventDefault();
       if (window.scrollY !== anchor.offsetTop) {
-        new Scroller(anchor.offsetTop);
+        new Scroller(anchor.offsetTop, this.options.animation);
       }
     }
     else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A') {
@@ -102,7 +108,7 @@ class AnchorScroller {
       if (!anchor) return;
       event.preventDefault();
       if (window.scrollY !== anchor.offsetTop) {
-        new Scroller(anchor.offsetTop);
+        new Scroller(anchor.offsetTop, this.options.animation);
       }
     }
   }
