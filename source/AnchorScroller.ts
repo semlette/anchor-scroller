@@ -5,7 +5,7 @@ export interface animationFunction {
   (time: number, start: number, change: number, duration: number): number
 }
 
-interface Options {
+export interface Options {
   checkParent?: boolean;
   class?: string;
   animation?: animationFunction;

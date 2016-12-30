@@ -1,8 +1,8 @@
-interface animationFunction {
+export interface animationFunction {
   (time: number, start: number, change: number, duration: number): number
 }
 
-declare interface Options {
+export interface Options {
   checkParent?: boolean;
   class?: string;
   animation?: animationFunction;
@@ -10,11 +10,13 @@ declare interface Options {
 
 declare class AnchorScroller {
 
-  constructor(options: Options);
+  constructor(options?: Options);
 
   /**
    * Removes all AnchorScroller related stuff
    */
-  destroy(): void;
+  public destroy(): void;
   
 }
+
+export default AnchorScroller;
