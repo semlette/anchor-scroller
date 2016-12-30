@@ -73,43 +73,34 @@ class AnchorScroller {
     const target = event.target as HTMLElement;
 
     // If clicked- or parent element is an anchor,
-    // get the `href` and scroll to it
-
-    // If `options.class` is set, only continue
-    // if the element contains the class
-
-    // Stop if no href attribute is found
-    // or it doesn't start with #
-
-    // Also stop if it cannot find an element
-    // with `id` equal to `href`
-
-    // If the current scroll position is not
-    // equal to the anchors', start scrolling
-    
+    // get the `href` and scroll to it  
     if (target.nodeName === 'A') {
       const _target = target as HTMLAnchorElement;
-      if (this.options.class && !_target.classList.contains(this.options.class)) return;
-      const href: string | null = _target.getAttribute('href');
-      if (!href || href.charAt(0) !== '#') return;
-      const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
-      if (!anchor) return;
-      event.preventDefault();
-      if (window.scrollY !== anchor.offsetTop) {
-        new Scroller(anchor.offsetTop, this.options.animation);
-      }
+      this.checkElement(_target, event);
     }
     else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A') {
       const parent = target.parentNode as HTMLAnchorElement;
-      if (this.options.class && !parent.classList.contains(this.options.class)) return;
-      const href: string | null = parent.getAttribute('href');
-      if (!href) return;
-      const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
-      if (!anchor) return;
-      event.preventDefault();
-      if (window.scrollY !== anchor.offsetTop) {
-        new Scroller(anchor.offsetTop, this.options.animation);
-      }
+      this.checkElement(parent, event);
+    }
+  }
+
+  private checkElement(element: HTMLAnchorElement, event: Event): void {
+    // If `options.class` is set, only continue
+    // if the element contains the class
+    if (this.options.class && !element.classList.contains(this.options.class)) return;
+    // Stop if no href attribute is found
+    // or it doesn't start with #
+    const href: string | null = element.getAttribute('href');
+    if (!href || href.charAt(0) !== '#') return;
+    // Also stop if it cannot find an element
+    // with `id` equal to `href`
+    const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
+    if (!anchor) return;
+    // Only run if the current scroll position
+    // is not equal to the anchors' position
+    event.preventDefault();
+    if (window.scrollY !== anchor.offsetTop) {
+      new Scroller(anchor.offsetTop, this.options.animation);
     }
   }
 
