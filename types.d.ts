@@ -1,6 +1,11 @@
+interface animationFunction {
+  (time: number, start: number, change: number, duration: number): number
+}
+
 declare interface Options {
   checkParent?: boolean;
-  class?: (string | undefined);
+  class?: string;
+  animation?: animationFunction;
 }
 
 declare class AnchorScroller {
