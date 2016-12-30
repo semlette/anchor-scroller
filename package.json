@@ -7,7 +7,7 @@
   "types": "./types.d.ts",
   "repository": "https://github.com/semlette/anchor-scroller.git",
   "scripts": {
-    "prepublish": "npm run build",
+    "postinstall": "npm run build",
     "build": "npm run build:umd && npm run build:es && npm run build:cjs",
     "build:umd": "FORMAT=umd rollup --config rollup.config.js",
     "build:es": "FORMAT=es rollup --config rollup.config.js",
