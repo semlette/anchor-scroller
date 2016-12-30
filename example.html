@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>  
+  <head>
+    <title>anchor-scroller example</title>
+  </head>
+  <body>
+
+    <a href="#my-anchor">Take me down!</a>
+
+    <div style="height: 2000px"></div>
+
+    <a id="my-anchor"></a>
+    <h1>Hello world!</h1>
+
+    <!-- Import anchor-scroller -->
+    <script src="distribution/AnchorScroller.js"></script>
+    <!-- then initialize it -->
+    <script>
+      const scroller = new AnchorScroller();
+
+      /* if you need to stop anchor-scroller,
+         you can do so with the `destroy` method */
+      // scroller.destroy();
+    </script>
+  </body>
+</html>
