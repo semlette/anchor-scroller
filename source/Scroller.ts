@@ -1,20 +1,32 @@
-import { LOCATION_ABOVE, LOCATION_UNDER } from './constants';
-
 /**
  * Handles the scrolling
  */
 class Scroller {
 
   /**
-   * Anchor is above or under current scroll position.
+   * Elapsed time
    */
-  private location: symbol = (window.scrollY > this.position) ? LOCATION_ABOVE : LOCATION_UNDER;
+  private time: number = 0;
 
   /**
-   * Last scroll position. Used to stop scrolling
-   * if the bottom of the page has been reached.
+   * Duration of the scrolling
    */
-  private last: number;
+  private duration: number = 1500;
+
+  /**
+   * Start position
+   */
+  private start: number = window.scrollY;
+
+  /**
+   * Difference between start and finish
+   */
+  private change: number = this.position - this.start;
+
+  /**
+   * Time increments
+   */
+  private increment: number = 25;
 
   /**
    * Bound copy of the scroll function.
@@ -32,37 +44,28 @@ class Scroller {
    * Scrolls the page
    */
   private scrollUnbound(): void {
-    if (this.location === LOCATION_ABOVE) {
-      if (window.scrollY <= this.position) {
-        cancelAnimationFrame(this.scroll);
-        return;
-      }
+    this.time += this.increment;
+
+    window.scrollTo(undefined, this.ease(this.time, this.start, this.change, this.duration));
+
+    if (this.time < this.duration) {
+      requestAnimationFrame(this.scroll);
+    }
+  }
+
+  /**
+   * Adds easing animation to the scrolling
+   */
+  private ease(time: number, start: number, change: number, duration: number): number {
+    // Easing functions
+    // http://robertpenner.com/easing/
+
+    if ((time /= duration / 2) < 1) {
+      return change / 2 * time * time * time + start;
     }
     else {
-      if (window.scrollY >= this.position) {
-        cancelAnimationFrame(this.scroll);
-        return;
-      }
+		  return change / 2 * ((time -= 2) * time * time + 2) + start;
     }
-
-    /**
-     * If it has not reached the target,
-     * and isn't scrolling, it has reached
-     * the top/bottom of the page
-     */
-    if (this.last === window.scrollY) {
-      cancelAnimationFrame(this.scroll);
-      return;
-    }
-    this.last = window.scrollY;
-
-    if (this.location === LOCATION_ABOVE) {
-      window.scrollTo(undefined, window.scrollY - 1);
-    }
-    else {
-      window.scrollTo(undefined, window.scrollY + 1);
-    }
-    requestAnimationFrame(this.scroll);
   }
 }
 
