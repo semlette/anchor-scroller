@@ -10,7 +10,7 @@ It doesn't sound like much but it's actually really nice 😁
 ## Usage
 1) **Include the library**
 
-Can be done [with NPM](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-global-variable) or [from a CDN](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-global-variable)
+Can be done [with NPM](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-module) or [from a CDN](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-global-variable)
 
 2) **Initialize the AnchorScroll class and you're done!**
 ```javascript
