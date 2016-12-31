@@ -68,8 +68,41 @@ class Scroller {
   }
 
   
-  private userHasCanceledScroll() {
-    return window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration));
+  private userHasCanceledScroll(): boolean {
+    /**
+     * window.scrollTo doesn't use decimals,
+     * so we have round them both up and down
+     */
+
+    /**
+     * If the scroll position is not equal to
+     * the predicted position, rounded up or down,
+     * the user the scrolled.
+     */
+    if (
+      window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration)) &&
+      window.scrollY !== Math.ceil(this.ease(this.time, this.start, this.change, this.duration))
+    ) {
+      return true;
+    }
+    /**
+     * Rounding down usually gives the most
+     * accurate position, so if that doesn't
+     * match, but the rounded-up number does,
+     * the user hasn't scrolled.
+     */
+    else if (
+      window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration)) &&
+      window.scrollY === Math.ceil(this.ease(this.time, this.start, this.change, this.duration))
+    ) {
+      return false;
+    }
+    /**
+     * The rounded down number is equal to the predicted number.
+     */
+    else {
+      return false;
+    } 
   }
 
   /**
