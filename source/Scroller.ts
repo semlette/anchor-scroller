@@ -1,4 +1,9 @@
-import { animationFunction } from './AnchorScroller';
+import { CustomAnimation, TimeOptions } from './AnchorScroller';
+
+interface ScrollerOptions {
+  customAnimation?: CustomAnimation;
+  time?: TimeOptions
+}
 
 /**
  * Handles the scrolling
@@ -30,7 +35,9 @@ class Scroller {
   /**
    * Duration of the scrolling
    */
-  private duration: number = 1500;
+  private duration: number = this.options.time && this.options.time.duration
+    ? this.options.time.duration
+    : 1500;
 
   /**
    * Start position
@@ -45,7 +52,9 @@ class Scroller {
   /**
    * Time increments
    */
-  private increment: number = 25;
+  private increment: number = this.options.time && this.options.time.increment
+    ? this.options.time.increment
+    : 25;
 
   /**
    * Bound copy of the scroll function.
@@ -54,7 +63,7 @@ class Scroller {
   private scroll = this.scrollUnbound.bind(this);
 
 
-  constructor(private position: number, private customAnimation?: animationFunction) {
+  constructor(private position: number, private options: ScrollerOptions) {
     requestAnimationFrame(this.scroll);
   }
 
@@ -86,7 +95,7 @@ class Scroller {
 
     window.scroll(
       window.scrollX,
-      this.customAnimation ? this.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
+      this.options.customAnimation ? this.options.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
     );
 
 
