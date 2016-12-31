@@ -17,4 +17,4 @@ Can be done [with NPM](https://github.com/semlette/anchor-scroller/wiki/Using-An
 new AnchorScroller();
 ```
 
-*[You should check out the more in-depth usage guide](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#options).*
+[The more in-depth usage guide](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller) also has documentation on the [options](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#options) and [methods](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#methods).
