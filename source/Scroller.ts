@@ -67,17 +67,19 @@ class Scroller {
     requestAnimationFrame(this.scroll);
   }
 
-  
+  /**
+   * Detects if the user has scrolled
+   */
   private userHasCanceledScroll(): boolean {
     /**
-     * window.scrollTo doesn't use decimals,
+     * window.scroll doesn't use decimals,
      * so we have round them both up and down
      */
 
     /**
      * If the scroll position is not equal to
      * the predicted position, rounded up or down,
-     * the user the scrolled.
+     * the user has scrolled.
      */
     if (
       window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration)) &&
@@ -107,7 +109,7 @@ class Scroller {
 
   /**
    * Calculates if it should scroll to the
-   * bottom of the page or to the anchor
+   * bottom of the page or to the anchor.
    */
   private calculateChange(): number {
     return this.positionRelativeToBottom < window.innerHeight
