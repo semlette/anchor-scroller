@@ -1,5 +1,5 @@
 # anchor-scroller
-⚓️ Smoothly scroll to `#anchors`
+⚓️  Smoothly scroll to `#anchors`
 
 ## Features
 * ... Scrolls to anchors
@@ -7,6 +7,7 @@
 * Doesn't try to scroll past the end
 
 It doesn't sound like much but it's actually really nice 😁
+
 ## Usage
 1) **Include the library**
 
