@@ -58,6 +58,11 @@ class Scroller {
     requestAnimationFrame(this.scroll);
   }
 
+  
+  private userHasCanceledScroll() {
+    return window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration));
+  }
+
   /**
    * Calculates if it should scroll to the
    * bottom of the page or to the anchor
@@ -72,12 +77,19 @@ class Scroller {
    * Scrolls the page
    */
   private scrollUnbound(): void {
+    if (this.userHasCanceledScroll()) {
+      cancelAnimationFrame(this.scroll);
+      return;
+    }
+
     this.time += this.increment;
 
-    window.scrollTo(
+    window.scroll(
       window.scrollX,
       this.customAnimation ? this.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
     );
+
+
 
     if (this.time < this.duration) {
       requestAnimationFrame(this.scroll);
