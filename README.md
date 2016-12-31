@@ -1,13 +1,20 @@
 # anchor-scroller
 ⚓️ Smoothly scroll to `#anchors`
 
-## Usage
-1) Include the library
+## Features
+* ... Scrolls to anchors
+* Stops scrolling if the user scrolls
+* Doesn't try to scroll past the end
 
-2) Initialize the AnchorScroll class and you're pretty much done!
+It doesn't sound like much but it's actually really nice 😁
+## Usage
+1) **Include the library**
+
+Can be done [with NPM](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-global-variable) or [from a CDN](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#as-global-variable)
+
+2) **Initialize the AnchorScroll class and you're done!**
 ```javascript
-new AnchorScroller({
-  checkParent: true // checks if the parent element is an anchor
-});
+new AnchorScroller();
 ```
-You can pass it an optional option object to tweak it's behavior. See all available options [here](#insert_later).
+
+*[You should check out the more in-depth usage guide](https://github.com/semlette/anchor-scroller/wiki/Using-Anchor-Scroller#options).*
