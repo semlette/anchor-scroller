@@ -1,8 +1,15 @@
-import { CustomAnimation, TimeOptions } from './AnchorScroller';
+import { Animation, TimeOptions } from './AnchorScroller';
 
 interface ScrollerOptions {
-  customAnimation?: CustomAnimation;
-  time?: TimeOptions
+  /**
+   * Animation function
+   */
+  animation: Animation;
+
+  /**
+   * Time configuration time
+   */
+  time: TimeOptions
 }
 
 /**
@@ -13,7 +20,7 @@ class Scroller {
   /**
    * Document length (height)
    */
-  private documentHeight: number = Math.max(
+  private documentLength: number = Math.max(
     document.body.scrollHeight,
     document.body.offsetHeight,
     document.documentElement.clientHeight,
@@ -25,20 +32,13 @@ class Scroller {
    * Anchor's position relative to the
    * bottom of the page
    */
-  private positionRelativeToBottom: number = this.documentHeight - this.position;
-  
+  private positionRelativeToBottom: number = this.documentLength - this.position;
+
   /**
    * Elapsed time
    */
   private time: number = 0;
-
-  /**
-   * Duration of the scrolling
-   */
-  private duration: number = this.options.time && this.options.time.duration
-    ? this.options.time.duration
-    : 1500;
-
+  
   /**
    * Start position
    */
@@ -48,13 +48,6 @@ class Scroller {
    * Difference between start and finish
    */
   private change: number = this.calculateChange();
-
-  /**
-   * Time increments
-   */
-  private increment: number = this.options.time && this.options.time.increment
-    ? this.options.time.increment
-    : 25;
 
   /**
    * Bound copy of the scroll function.
@@ -82,20 +75,20 @@ class Scroller {
      * the user has scrolled.
      */
     if (
-      window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration)) &&
-      window.scrollY !== Math.ceil(this.ease(this.time, this.start, this.change, this.duration))
+      window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
+      window.scrollY !== Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
     ) {
       return true;
     }
     /**
      * Rounding down usually gives the most
-     * accurate position, so if that doesn't
+     * accurate position, but if that doesn't
      * match, but the rounded-up number does,
      * the user hasn't scrolled.
      */
     else if (
-      window.scrollY !== Math.floor(this.ease(this.time, this.start, this.change, this.duration)) &&
-      window.scrollY === Math.ceil(this.ease(this.time, this.start, this.change, this.duration))
+      window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
+      window.scrollY === Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
     ) {
       return false;
     }
@@ -113,7 +106,7 @@ class Scroller {
    */
   private calculateChange(): number {
     return this.positionRelativeToBottom < window.innerHeight
-      ? this.documentHeight - window.innerHeight - this.start
+      ? this.documentLength - window.innerHeight - this.start
       : this.position - this.start;
   }
 
@@ -126,32 +119,15 @@ class Scroller {
       return;
     }
 
-    this.time += this.increment;
+    this.time += this.options.time.increment;
 
     window.scroll(
       window.scrollX,
-      this.options.customAnimation ? this.options.customAnimation(this.time, this.start, this.change, this.duration) : this.ease(this.time, this.start, this.change, this.duration)
+      this.options.animation(this.time, this.start, this.change, this.options.time.duration)
     );
 
-
-
-    if (this.time < this.duration) {
+    if (this.time < this.options.time.duration) {
       requestAnimationFrame(this.scroll);
-    }
-  }
-
-  /**
-   * Adds easing animation to the scrolling
-   */
-  private ease(time: number, start: number, change: number, duration: number): number {
-    // Easing functions
-    // http://robertpenner.com/easing/
-
-    if ((time /= duration / 2) < 1) {
-      return change / 2 * time * time * time + start;
-    }
-    else {
-		  return change / 2 * ((time -= 2) * time * time + 2) + start;
     }
   }
 }
