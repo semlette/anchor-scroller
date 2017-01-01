@@ -1,5 +1,4 @@
 # anchor-scroller
-⚓️  Smoothly scroll to `#anchors`
 
 ## Features
 * ... Scrolls to anchors
