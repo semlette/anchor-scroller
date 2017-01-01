@@ -1,5 +1,5 @@
-export interface animationFunction {
-  (time?: number, start?: number, change?: number, duration?: number): number
+export interface Animation {
+  (time: number, start: number, change: number, duration: number): number
 }
 
 export interface TimeOptions {
@@ -10,7 +10,7 @@ export interface TimeOptions {
 export interface Options {
   checkParent?: boolean;
   class?: string;
-  animation?: animationFunction;
+  animation?: Animation;
   time?: TimeOptions;
 }
 
