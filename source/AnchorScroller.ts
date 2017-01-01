@@ -1,14 +1,34 @@
 import Scroller from './Scroller';
 
 
-export interface animationFunction {
+export interface Animation {
   (time: number, start: number, change: number, duration: number): number
 }
 
-export interface Options {
+export interface TimeOptions {
+  /**
+   * Time increments
+   */
+  increment: number;
+  
+  /**
+   * Duration of the scrolling
+   */
+  duration: number;
+}
+
+interface OptionalOptions {
   checkParent?: boolean;
   class?: string;
-  animation?: animationFunction;
+  animation?: Animation;
+  time?: TimeOptions;
+}
+
+interface Options {
+  checkParent: boolean;
+  class: string | undefined;
+  animation: Animation;
+  time: TimeOptions;
 }
 
 interface BoundEventHandlers {
@@ -31,11 +51,19 @@ class AnchorScroller {
   };
 
 
-  constructor(private optionalOptions?: Options) {
+  constructor(private optionalOptions?: OptionalOptions) {
     this.options = {
       checkParent: false,
       class: undefined,
-      animation: undefined,
+      animation: (time, start, change, duration): number => {
+        return ((time /= duration / 2) < 1)
+          ? change / 2 * time * time * time + start
+          : change / 2 * ((time -= 2) * time * time + 2) + start;
+      },
+      time: {
+        increment: 25,
+        duration: 1500  
+      },
       ...optionalOptions
     };
     this.addListeners();
@@ -100,7 +128,10 @@ class AnchorScroller {
     // is not equal to the anchors' position
     event.preventDefault();
     if (window.scrollY !== anchor.offsetTop) {
-      new Scroller(anchor.offsetTop, this.options.animation);
+      new Scroller(anchor.offsetTop, {
+        animation: this.options.animation,
+        time: this.options.time
+      });
     }
   }
 
