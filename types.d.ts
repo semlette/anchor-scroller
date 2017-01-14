@@ -3,7 +3,7 @@ export interface Animation {
 }
 
 export interface TimeOptions {
-  increments?: number;
+  increment?: number;
   duration?: number;
 }
 
