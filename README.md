@@ -22,7 +22,7 @@ new AnchorScroller();
 You can pass the instance an options object to tweak it's behavior. The simplest options are `class` and `checkParent`.
 ```javascript
 new AnchorScroller({
-  class: 'scroll', // will make it only react on elemenets with the given class.
+  class: 'scroll', // will make it only react on elements with the given class.
   checkParent: true // will make it check the parent element, if the clicked element didn't match the criteria.
 });
 ```
