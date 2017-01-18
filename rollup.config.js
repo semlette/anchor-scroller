@@ -10,6 +10,7 @@ export default {
   moduleName: 'AnchorScroller',
   format,
   sourceMap: true,
+  exports: 'default',
   plugins: [
     typescript({
       typescript: latestTypescript
