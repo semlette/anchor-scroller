@@ -1,6 +1,7 @@
 import { Animation, TimeOptions } from './AnchorScroller';
 
-interface ScrollerOptions {
+interface ScrollerOptions
+{
   /**
    * Animation function
    */
@@ -15,7 +16,8 @@ interface ScrollerOptions {
 /**
  * Handles the scrolling
  */
-class Scroller {
+export default class Scroller
+{
 
   /**
    * Document length (height)
@@ -55,15 +57,16 @@ class Scroller {
    */
   private scroll = this.scrollUnbound.bind(this);
 
-
-  constructor(private position: number, private options: ScrollerOptions) {
+  constructor(private position: number, private options: ScrollerOptions)
+  {
     requestAnimationFrame(this.scroll);
   }
 
   /**
    * Detects if the user has scrolled
    */
-  private userHasCanceledScroll(): boolean {
+  private userHasCanceledScroll(): boolean
+  {
     /**
      * window.scroll doesn't use decimals,
      * so we have round them both up and down
@@ -77,7 +80,8 @@ class Scroller {
     if (
       window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
       window.scrollY !== Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
-    ) {
+    )
+    {
       return true;
     }
     /**
@@ -89,13 +93,15 @@ class Scroller {
     else if (
       window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
       window.scrollY === Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
-    ) {
+    )
+    {
       return false;
     }
     /**
      * The rounded down number is equal to the predicted number.
      */
-    else {
+    else
+    {
       return false;
     } 
   }
@@ -104,7 +110,8 @@ class Scroller {
    * Calculates if it should scroll to the
    * bottom of the page or to the anchor.
    */
-  private calculateChange(): number {
+  private calculateChange(): number
+  {
     return this.positionRelativeToBottom < window.innerHeight
       ? this.documentLength - window.innerHeight - this.start
       : this.position - this.start;
@@ -113,8 +120,10 @@ class Scroller {
   /**
    * Scrolls the page
    */
-  private scrollUnbound(): void {
-    if (this.userHasCanceledScroll()) {
+  private scrollUnbound(): void
+  {
+    if (this.userHasCanceledScroll())
+    {
       cancelAnimationFrame(this.scroll);
       return;
     }
@@ -126,10 +135,9 @@ class Scroller {
       this.options.animation(this.time, this.start, this.change, this.options.time.duration)
     );
 
-    if (this.time < this.options.time.duration) {
+    if (this.time < this.options.time.duration)
+    {
       requestAnimationFrame(this.scroll);
     }
   }
 }
-
-export default Scroller;

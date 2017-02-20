@@ -1,20 +1,24 @@
-export interface Animation {
+export interface Animation
+{
   (time: number, start: number, change: number, duration: number): number
 }
 
-export interface TimeOptions {
+export interface TimeOptions
+{
   increment?: number;
   duration?: number;
 }
 
-export interface Options {
+export interface Options
+{
   checkParent?: boolean;
   class?: string;
   animation?: Animation;
   time?: TimeOptions;
 }
 
-declare class AnchorScroller {
+declare class AnchorScroller
+{
 
   constructor(options?: Options);
 

@@ -1,11 +1,12 @@
 import Scroller from './Scroller';
 
-
-export interface Animation {
+export interface Animation
+{
   (time: number, start: number, change: number, duration: number): number
 }
 
-export interface TimeOptions {
+export interface TimeOptions
+{
   /**
    * Time increments
    */
@@ -17,21 +18,24 @@ export interface TimeOptions {
   duration: number;
 }
 
-interface OptionalOptions {
+interface OptionalOptions
+{
   checkParent?: boolean;
   class?: string;
   animation?: Animation;
   time?: TimeOptions;
 }
 
-interface Options {
+interface Options
+{
   checkParent: boolean;
   class: string | undefined;
   animation: Animation;
   time: TimeOptions;
 }
 
-interface BoundEventHandlers {
+interface BoundEventHandlers
+{
   click: EventListener
 }
 
@@ -39,7 +43,8 @@ interface BoundEventHandlers {
 /**
  * Make anchors great again!
  */
-class AnchorScroller {
+export default class AnchorScroller
+{
 
   private options: Options;
 
@@ -51,7 +56,8 @@ class AnchorScroller {
   };
 
 
-  constructor(private optionalOptions?: OptionalOptions) {
+  constructor(private optionalOptions?: OptionalOptions)
+  {
     this.options = {
       checkParent: false,
       class: undefined,
@@ -73,7 +79,8 @@ class AnchorScroller {
   /**
    * Removes all AnchorScroller related stuff
    */
-  public destroy(): void {
+  public destroy(): void
+  {
     this.removeListeners();
   }
 
@@ -81,7 +88,8 @@ class AnchorScroller {
   /**
    * Adds listeners
    */
-  private addListeners(): void {
+  private addListeners(): void
+  {
     document.addEventListener('click', this.handlers.click);
   }
 
@@ -89,7 +97,8 @@ class AnchorScroller {
   /**
    * Removes all listeners
    */
-  private removeListeners(): void {
+  private removeListeners(): void
+  {
     document.removeEventListener('click', this.handlers.click);
   }
 
@@ -97,22 +106,26 @@ class AnchorScroller {
   /**
    * Checks if the target `href` is pointing to an anchor
    */
-  private check(event: Event): void {
+  private check(event: Event): void
+  {
     const target = event.target as HTMLElement;
 
     // If clicked- or parent element is an anchor,
     // get the `href` and scroll to it  
-    if (target.nodeName === 'A') {
+    if (target.nodeName === 'A')
+    {
       const _target = target as HTMLAnchorElement;
       this.checkElement(_target, event);
     }
-    else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A') {
+    else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A')
+    {
       const parent = target.parentNode as HTMLAnchorElement;
       this.checkElement(parent, event);
     }
   }
 
-  private checkElement(element: HTMLAnchorElement, event: Event): void {
+  private checkElement(element: HTMLAnchorElement, event: Event): void
+  {
     // If `options.class` is set, only continue
     // if the element contains the class
     if (this.options.class && !element.classList.contains(this.options.class)) return;
@@ -127,7 +140,8 @@ class AnchorScroller {
     // Only run if the current scroll position
     // is not equal to the anchors' position
     event.preventDefault();
-    if (window.scrollY !== anchor.offsetTop) {
+    if (window.scrollY !== anchor.offsetTop)
+    {
       new Scroller(anchor.offsetTop, {
         animation: this.options.animation,
         time: this.options.time
@@ -136,5 +150,3 @@ class AnchorScroller {
   }
 
 }
-
-export default AnchorScroller;
