@@ -20,6 +20,11 @@ export default class Scroller
 {
 
   /**
+   * Return value from requestAnimationFrame
+   */
+  private animation: number;
+
+  /**
    * Document length (height)
    */
   private documentLength: number = Math.max(
@@ -51,15 +56,9 @@ export default class Scroller
    */
   private change: number = this.calculateChange();
 
-  /**
-   * Bound copy of the scroll function.
-   * Would normally get bound to window.
-   */
-  private scroll = this.scrollUnbound.bind(this);
-
   constructor(private position: number, private options: ScrollerOptions)
   {
-    requestAnimationFrame(this.scroll);
+    this.animation = requestAnimationFrame(this.scroll.bind(this));
   }
 
   /**
@@ -120,11 +119,11 @@ export default class Scroller
   /**
    * Scrolls the page
    */
-  private scrollUnbound(): void
+  private scroll(): void
   {
     if (this.userHasCanceledScroll())
     {
-      cancelAnimationFrame(this.scroll);
+      cancelAnimationFrame(this.animation);
       return;
     }
 
@@ -137,7 +136,7 @@ export default class Scroller
 
     if (this.time < this.options.time.duration)
     {
-      requestAnimationFrame(this.scroll);
+      this.animation = requestAnimationFrame(this.scroll.bind(this));
     }
   }
 }
