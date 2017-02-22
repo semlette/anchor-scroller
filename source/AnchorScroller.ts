@@ -36,7 +36,7 @@ interface Options
 
 interface BoundEventHandlers
 {
-  click: EventListener
+  click: EventListener;
 }
 
 
@@ -55,6 +55,7 @@ export default class AnchorScroller
     click: this.check.bind(this)
   };
 
+  private scroller: Scroller;
 
   constructor(private optionalOptions?: OptionalOptions)
   {
@@ -72,7 +73,20 @@ export default class AnchorScroller
       },
       ...optionalOptions
     };
+
+    this.scroller = new Scroller({
+      animation: this.options.animation,
+      time: this.options.time
+    })
     this.addListeners();
+  }
+
+  /**
+   * Scrolls to given position
+   */
+  public scroll(position: number): void
+  {
+    this.scroller.scrollTo(position);
   }
 
 
@@ -142,10 +156,7 @@ export default class AnchorScroller
     event.preventDefault();
     if (window.scrollY !== anchor.offsetTop)
     {
-      new Scroller(anchor.offsetTop, {
-        animation: this.options.animation,
-        time: this.options.time
-      });
+      this.scroll(anchor.offsetTop);
     }
   }
 

@@ -25,6 +25,11 @@ export default class Scroller
   private animation: number;
 
   /**
+   * Position to scroll to
+   */
+  private position: number;
+
+  /**
    * Document length (height)
    */
   private documentLength: number = Math.max(
@@ -39,25 +44,34 @@ export default class Scroller
    * Anchor's position relative to the
    * bottom of the page
    */
-  private positionRelativeToBottom: number = this.documentLength - this.position;
+  private positionRelativeToBottom: number;
 
   /**
    * Elapsed time
    */
-  private time: number = 0;
+  private time: number;
   
   /**
    * Start position
    */
-  private start: number = window.scrollY;
+  private start: number;
 
   /**
    * Difference between start and finish
    */
-  private change: number = this.calculateChange();
+  private change: number;
 
-  constructor(private position: number, private options: ScrollerOptions)
+  constructor(private options: ScrollerOptions)
+  { }
+
+  public scrollTo(position: number): void
   {
+    // Reset everything
+    this.time = 0;
+    this.position = position;
+    this.positionRelativeToBottom = this.documentLength - this.position;
+    this.start = window.scrollY;
+    this.change = this.calculateChange();
     this.animation = requestAnimationFrame(this.scroll.bind(this));
   }
 
