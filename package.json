@@ -8,10 +8,7 @@
   "repository": "https://github.com/semlette/anchor-scroller.git",
   "scripts": {
     "prepublish": "echo \"REMEMBER TO CLEAR DISTRIBUTION FOLDER\" && npm run build",
-    "build": "npm run build:umd && npm run build:es && npm run build:cjs",
-    "build:umd": "FORMAT=umd rollup --config rollup.config.js",
-    "build:es": "FORMAT=es rollup --config rollup.config.js",
-    "build:cjs": "FORMAT=cjs rollup --config rollup.config.js"
+    "build": "rollup -c rollup.config.js"
   },
   "author": "Andi Semler <andirobinsemler@gmail.com>",
   "license": "MIT",
