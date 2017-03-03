@@ -3,7 +3,7 @@
   <head>
     <title>anchor-scroller example</title>
   </head>
-  <body>
+  <body style="font-family: Arial; background: linear-gradient(#24CCFF, #FF7824)" id="top">
 
     <a href="#my-anchor">Take me down!</a>
 
@@ -11,16 +11,17 @@
 
     <a id="my-anchor"></a>
     <h1>Hello world!</h1>
+    <a href="#top">
+      <button>Take me back up.</button>
+    </a>
 
     <!-- Import anchor-scroller -->
     <script src="distribution/AnchorScroller.js"></script>
     <!-- then initialize it -->
     <script>
-      const scroller = new AnchorScroller();
-
-      /* if you need to stop anchor-scroller,
-         you can do so with the `destroy` method */
-      // scroller.destroy();
+      const scroller = new AnchorScroller({
+        checkParent: true // Must be enabled, otherwise the <button> would not work.
+      });
     </script>
   </body>
 </html>
