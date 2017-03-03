@@ -1,7 +1,6 @@
 import { Animation, TimeOptions } from './AnchorScroller';
 
-interface ScrollerOptions
-{
+interface ScrollerOptions {
   /**
    * Animation function
    */
@@ -16,8 +15,7 @@ interface ScrollerOptions
 /**
  * Handles the scrolling
  */
-export default class Scroller
-{
+export default class Scroller {
 
   /**
    * Return value from requestAnimationFrame
@@ -61,11 +59,9 @@ export default class Scroller
    */
   private change: number;
 
-  constructor(private options: ScrollerOptions)
-  { }
+  constructor(private options: ScrollerOptions) {}
 
-  public scrollTo(position: number): void
-  {
+  public scrollTo(position: number): void {
     // Reset everything
     this.time = 0;
     this.position = position;
@@ -78,8 +74,7 @@ export default class Scroller
   /**
    * Detects if the user has scrolled
    */
-  private userHasCanceledScroll(): boolean
-  {
+  private userHasCanceledScroll(): boolean {
     /**
      * window.scroll doesn't use decimals,
      * so we have round them both up and down
@@ -93,8 +88,7 @@ export default class Scroller
     if (
       window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
       window.scrollY !== Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
-    )
-    {
+    ) {
       return true;
     }
     /**
@@ -106,15 +100,13 @@ export default class Scroller
     else if (
       window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
       window.scrollY === Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
-    )
-    {
+    ) {
       return false;
     }
     /**
      * The rounded down number is equal to the predicted number.
      */
-    else
-    {
+    else {
       return false;
     } 
   }
@@ -123,8 +115,7 @@ export default class Scroller
    * Calculates if it should scroll to the
    * bottom of the page or to the anchor.
    */
-  private calculateChange(): number
-  {
+  private calculateChange(): number {
     return this.positionRelativeToBottom < window.innerHeight
       ? this.documentLength - window.innerHeight - this.start
       : this.position - this.start;
@@ -133,10 +124,8 @@ export default class Scroller
   /**
    * Scrolls the page
    */
-  private scroll(): void
-  {
-    if (this.userHasCanceledScroll())
-    {
+  private scroll(): void {
+    if (this.userHasCanceledScroll()) {
       cancelAnimationFrame(this.animation);
       return;
     }
@@ -148,8 +137,7 @@ export default class Scroller
       this.options.animation(this.time, this.start, this.change, this.options.time.duration)
     );
 
-    if (this.time < this.options.time.duration)
-    {
+    if (this.time < this.options.time.duration) {
       this.animation = requestAnimationFrame(this.scroll.bind(this));
     }
   }
