@@ -71,7 +71,9 @@ export default class AnchorScroller {
       animation: this.options.animation,
       time: this.options.time
     })
-    this.addListeners();
+    
+    // Add event listeners
+    document.addEventListener('click', this.handlers.click);
   }
 
   /**
@@ -86,25 +88,8 @@ export default class AnchorScroller {
    * Removes all AnchorScroller related stuff
    */
   public destroy(): void {
-    this.removeListeners();
-  }
-
-
-  /**
-   * Adds listeners
-   */
-  private addListeners(): void {
-    document.addEventListener('click', this.handlers.click);
-  }
-
-
-  /**
-   * Removes all listeners
-   */
-  private removeListeners(): void {
     document.removeEventListener('click', this.handlers.click);
   }
-
 
   /**
    * Checks if the target `href` is pointing to an anchor
