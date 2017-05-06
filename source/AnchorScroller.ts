@@ -30,24 +30,12 @@ interface Options {
   time: TimeOptions;
 }
 
-interface BoundEventHandlers {
-  click: EventListener;
-}
-
-
 /**
  * Make anchors great again!
  */
 export default class AnchorScroller {
 
   private options: Options;
-
-  /**
-   * Bound event handlers
-   */
-  private handlers: BoundEventHandlers = {
-    click: this.check.bind(this)
-  };
 
   private scroller: Scroller;
 
@@ -73,7 +61,8 @@ export default class AnchorScroller {
     })
     
     // Add event listeners
-    document.addEventListener('click', this.handlers.click);
+    this.check = this.check.bind(this);
+    document.addEventListener('click', this.check);
   }
 
   /**
@@ -88,24 +77,20 @@ export default class AnchorScroller {
    * Removes all AnchorScroller related stuff
    */
   public destroy(): void {
-    document.removeEventListener('click', this.handlers.click);
+    document.removeEventListener('click', this.check);
   }
 
   /**
    * Checks if the target `href` is pointing to an anchor
    */
-  private check(event: Event): void {
-    const target = event.target as HTMLElement;
-
+  private check(event: any): void {
     // If clicked- or parent element is an anchor,
     // get the `href` and scroll to it  
-    if (target.nodeName === 'A') {
-      const _target = target as HTMLAnchorElement;
-      this.checkElement(_target, event);
+    if (event.target.nodeName === 'A') {
+      this.checkElement(event.target, event);
     }
-    else if (this.options.checkParent && target.parentNode && target.parentNode.nodeName === 'A') {
-      const parent = target.parentNode as HTMLAnchorElement;
-      this.checkElement(parent, event);
+    else if (this.options.checkParent && event.target.parentNode && event.target.parentNode.nodeName === 'A') {
+      this.checkElement(event.target.parentNode, event);
     }
   }
 
