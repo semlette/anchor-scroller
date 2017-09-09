@@ -98,13 +98,12 @@ export default class AnchorScroller {
     // If `options.class` is set, only continue
     // if the element contains the class
     if (this.options.class && !element.classList.contains(this.options.class)) return;
-    // Stop if no href attribute is found
-    // or it doesn't start with #
-    const href: string | null = element.getAttribute('href');
-    if (!href || href.charAt(0) !== '#') return;
+    // Stop if hash property is empty
+    const hash: string = element.hash;
+    if (!hash) return;
     // Also stop if it cannot find an element
-    // with `id` equal to `href`
-    const anchor: HTMLElement | null = document.getElementById(href.slice(1, href.length));
+    // with `id` equal to `hash`
+    const anchor: HTMLElement | null = document.getElementById(hash.slice(1));
     if (!anchor) return;
     // Only run if the current scroll position
     // is not equal to the anchors' position
