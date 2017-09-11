@@ -3,14 +3,14 @@ import typescript from 'rollup-plugin-typescript';
 import latestTypescript from 'typescript';
 
 export default {
-  entry: 'source/AnchorScroller.ts',
-  targets: [
-    { format: 'es', dest: 'distribution/AnchorScroller.es.js' },
-    { format: 'cjs', dest: 'distribution/AnchorScroller.cjs.js' },
-    { format: 'umd', dest: 'distribution/AnchorScroller.js' }
+  input: 'source/AnchorScroller.ts',
+  output: [
+    { format: 'es', file: 'distribution/AnchorScroller.es.js' },
+    { format: 'cjs', file: 'distribution/AnchorScroller.cjs.js' },
+    { format: 'umd', file: 'distribution/AnchorScroller.js' }
   ],
-  moduleName: 'AnchorScroller',
-  sourceMap: true,
+  name: 'AnchorScroller',
+  sourcemap: true,
   exports: 'default',
   plugins: [
     typescript({
@@ -19,7 +19,7 @@ export default {
     babel({
       babelrc: false,
       presets: [
-        'babili'
+        'minify'
       ]
     })
   ]
