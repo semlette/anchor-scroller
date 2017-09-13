@@ -16,13 +16,6 @@ export interface TimeOptions {
   duration: number;
 }
 
-interface OptionalOptions {
-  checkParent?: boolean;
-  class?: string;
-  animation?: Animation;
-  time?: TimeOptions;
-}
-
 interface Options {
   checkParent: boolean;
   class: string | undefined;
@@ -38,7 +31,7 @@ export default class AnchorScroller {
 
   private scroller: ScrollerMethods;
 
-  constructor(private optionalOptions?: OptionalOptions) {
+  constructor(private optionalOptions?: Partial<Options>) {
     this.options = {
       checkParent: false,
       class: undefined,

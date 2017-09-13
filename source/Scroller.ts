@@ -1,17 +1,5 @@
 import { Animation, TimeOptions } from "./AnchorScroller";
 
-interface ScrollerOptions {
-  /**
-   * Animation function
-   */
-  animation: Animation;
-
-  /**
-   * Time configuration time
-   */
-  time: TimeOptions;
-}
-
 interface ScrollerMethods {
   scrollTo(to: number): void;
 }
