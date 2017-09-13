@@ -8,7 +8,8 @@
   "repository": "https://github.com/semlette/anchor-scroller.git",
   "scripts": {
     "prepublish": "echo \"REMEMBER TO CLEAR DISTRIBUTION FOLDER\" && npm run build",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "prettify": "prettier --trailing-comma all --write \"{./*.{js,ts},source/*.ts}\""
   },
   "author": "Andi Semler <andirobinsemler@gmail.com>",
   "license": "MIT",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-preset-minify": "^0.2.0",
+    "prettier": "^1.6.1",
     "rollup": "^0.49.3",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-typescript": "^0.8.1",

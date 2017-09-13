@@ -1,7 +1,7 @@
-import Scroller, { ScrollerMethods } from './Scroller';
+import Scroller, { ScrollerMethods } from "./Scroller";
 
 export interface Animation {
-  (time: number, start: number, change: number, duration: number): number
+  (time: number, start: number, change: number, duration: number): number;
 }
 
 export interface TimeOptions {
@@ -9,7 +9,7 @@ export interface TimeOptions {
    * Time increments
    */
   increment: number;
-  
+
   /**
    * Duration of the scrolling
    */
@@ -34,7 +34,6 @@ interface Options {
  * Make anchors great again!
  */
 export default class AnchorScroller {
-
   private options: Options;
 
   private scroller: ScrollerMethods;
@@ -44,25 +43,22 @@ export default class AnchorScroller {
       checkParent: false,
       class: undefined,
       animation: (time, start, change, duration): number => {
-        return ((time /= duration / 2) < 1)
+        return (time /= duration / 2) < 1
           ? change / 2 * time * time * time + start
           : change / 2 * ((time -= 2) * time * time + 2) + start;
       },
       time: {
         increment: 25,
-        duration: 1500  
+        duration: 1500,
       },
-      ...optionalOptions
+      ...optionalOptions,
     };
 
-    this.scroller = Scroller(
-      this.options.animation,
-      this.options.time
-    )
-    
+    this.scroller = Scroller(this.options.animation, this.options.time);
+
     // Add event listeners
     this.check = this.check.bind(this);
-    document.addEventListener('click', this.check);
+    document.addEventListener("click", this.check);
   }
 
   /**
@@ -72,12 +68,11 @@ export default class AnchorScroller {
     this.scroller.scrollTo(position);
   }
 
-
   /**
    * Removes all AnchorScroller related stuff
    */
   public destroy(): void {
-    document.removeEventListener('click', this.check);
+    document.removeEventListener("click", this.check);
   }
 
   /**
@@ -85,11 +80,14 @@ export default class AnchorScroller {
    */
   private check(event: any): void {
     // If clicked- or parent element is an anchor,
-    // get the `href` and scroll to it  
-    if (event.target.nodeName === 'A') {
+    // get the `href` and scroll to it
+    if (event.target.nodeName === "A") {
       this.checkElement(event.target, event);
-    }
-    else if (this.options.checkParent && event.target.parentNode && event.target.parentNode.nodeName === 'A') {
+    } else if (
+      this.options.checkParent &&
+      event.target.parentNode &&
+      event.target.parentNode.nodeName === "A"
+    ) {
       this.checkElement(event.target.parentNode, event);
     }
   }
@@ -97,7 +95,8 @@ export default class AnchorScroller {
   private checkElement(element: HTMLAnchorElement, event: Event): void {
     // If `options.class` is set, only continue
     // if the element contains the class
-    if (this.options.class && !element.classList.contains(this.options.class)) return;
+    if (this.options.class && !element.classList.contains(this.options.class))
+      return;
     // Stop if hash property is empty
     const hash: string = element.hash;
     if (!hash) return;
@@ -112,5 +111,4 @@ export default class AnchorScroller {
       this.scroll(anchor.offsetTop);
     }
   }
-
 }

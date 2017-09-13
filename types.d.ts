@@ -7,15 +7,14 @@ interface ScrollerOptions {
   /**
    * Time configuration time
    */
-  time: TimeOptions
+  time: TimeOptions;
 }
 
 declare class Scroller {
-  
   constructor(options: ScrollerOptions);
 
   private options: ScrollerOptions;
-  
+
   /**
    * Return value from requestAnimationFrame
    */
@@ -51,7 +50,7 @@ declare class Scroller {
    * Difference between start and finish
    */
   private change: number;
-  
+
   public scrollTo(position: number): void;
 
   /**
@@ -69,11 +68,10 @@ declare class Scroller {
    * Scrolls the page
    */
   private scroll(): void;
-
 }
 
 export interface Animation {
-  (time: number, start: number, change: number, duration: number): number
+  (time: number, start: number, change: number, duration: number): number;
 }
 
 export interface TimeOptions {
@@ -93,7 +91,6 @@ interface BoundEventHandlers {
 }
 
 declare class AnchorScroller {
-
   constructor(options?: Options);
 
   private options: Options;
@@ -129,7 +126,6 @@ declare class AnchorScroller {
    * Checks if the target `href` is pointing to an anchor
    */
   private check(event: Event): void;
-  
 }
 
 export default AnchorScroller;

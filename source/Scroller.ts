@@ -1,4 +1,4 @@
-import { Animation, TimeOptions } from './AnchorScroller';
+import { Animation, TimeOptions } from "./AnchorScroller";
 
 interface ScrollerOptions {
   /**
@@ -9,14 +9,17 @@ interface ScrollerOptions {
   /**
    * Time configuration time
    */
-  time: TimeOptions
+  time: TimeOptions;
 }
 
 interface ScrollerMethods {
   scrollTo(to: number): void;
 }
 
-function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMethods {
+function Scroller(
+  animation: Animation,
+  timeOptions: TimeOptions,
+): ScrollerMethods {
   let position: number = 0;
   let positionRelativeToBottom: number = 0;
   let start: number = 0;
@@ -35,7 +38,7 @@ function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMetho
       body.offsetHeight,
       root.clientHeight,
       root.scrollHeight,
-      root.offsetHeight
+      root.offsetHeight,
     );
   }
 
@@ -65,30 +68,22 @@ function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMetho
      * the predicted position, rounded up or down,
      * the user has scrolled.
      */
-    if (
-      window.scrollY !== floor &&
-      window.scrollY !== ceil
-    ) {
+    if (window.scrollY !== floor && window.scrollY !== ceil) {
       return true;
-    }
-    /**
+    } else if (window.scrollY !== floor && window.scrollY === ceil) {
+      /**
      * Rounding down usually gives the most
      * accurate position, but if that doesn't
      * match, but the rounded-up number does,
      * the user hasn't scrolled.
      */
-    else if (
-      window.scrollY !== floor &&
-      window.scrollY === ceil
-    ) {
       return false;
-    }
-    /**
+    } else {
+      /**
      * The rounded down number is equal to the predicted number.
      */
-    else {
       return false;
-    } 
+    }
   }
 
   /**
@@ -105,7 +100,7 @@ function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMetho
 
     window.scroll(
       window.scrollX,
-      animation(time, start, change, timeOptions.duration)
+      animation(time, start, change, timeOptions.duration),
     );
 
     if (time < timeOptions.duration) {
@@ -122,9 +117,9 @@ function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMetho
     change = calculateChange();
     animationFrame = requestAnimationFrame(scroll);
   }
-  
-  return { scrollTo }  
+
+  return { scrollTo };
 }
 
 export default Scroller;
-export { ScrollerMethods }
+export { ScrollerMethods };
