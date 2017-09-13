@@ -1,4 +1,4 @@
-import Scroller from './Scroller';
+import Scroller, { ScrollerMethods } from './Scroller';
 
 export interface Animation {
   (time: number, start: number, change: number, duration: number): number
@@ -37,7 +37,7 @@ export default class AnchorScroller {
 
   private options: Options;
 
-  private scroller: Scroller;
+  private scroller: ScrollerMethods;
 
   constructor(private optionalOptions?: OptionalOptions) {
     this.options = {
@@ -55,10 +55,10 @@ export default class AnchorScroller {
       ...optionalOptions
     };
 
-    this.scroller = new Scroller({
-      animation: this.options.animation,
-      time: this.options.time
-    })
+    this.scroller = Scroller(
+      this.options.animation,
+      this.options.time
+    )
     
     // Add event listeners
     this.check = this.check.bind(this);

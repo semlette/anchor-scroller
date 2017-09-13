@@ -12,69 +12,49 @@ interface ScrollerOptions {
   time: TimeOptions
 }
 
-/**
- * Handles the scrolling
- */
-export default class Scroller {
+interface ScrollerMethods {
+  scrollTo(to: number): void;
+}
+
+function Scroller(animation: Animation, timeOptions: TimeOptions): ScrollerMethods {
+  let position: number = 0;
+  let positionRelativeToBottom: number = 0;
+  let start: number = 0;
+  let change: number = 0;
+  let time: number = 0;
+  let animationFrame: any;
 
   /**
-   * Return value from requestAnimationFrame
+   * Returns a fresh length of the document
    */
-  private animation: number;
-
-  /**
-   * Position to scroll to
-   */
-  private position: number;
-
-  /**
-   * Document length (height)
-   */
-  private documentLength: number = Math.max(
-    document.body.scrollHeight,
-    document.body.offsetHeight,
-    document.documentElement.clientHeight,
-    document.documentElement.scrollHeight,
-    document.documentElement.offsetHeight
-  );
-
-  /**
-   * Anchor's position relative to the
-   * bottom of the page
-   */
-  private positionRelativeToBottom: number;
-
-  /**
-   * Elapsed time
-   */
-  private time: number;
-  
-  /**
-   * Start position
-   */
-  private start: number;
-
-  /**
-   * Difference between start and finish
-   */
-  private change: number;
-
-  constructor(private options: ScrollerOptions) {}
-
-  public scrollTo(position: number): void {
-    // Reset everything
-    this.time = 0;
-    this.position = position;
-    this.positionRelativeToBottom = this.documentLength - this.position;
-    this.start = window.scrollY;
-    this.change = this.calculateChange();
-    this.animation = requestAnimationFrame(this.scroll.bind(this));
+  function getDocumentLength(): number {
+    const body = document.body;
+    const root = document.documentElement;
+    return Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      root.clientHeight,
+      root.scrollHeight,
+      root.offsetHeight
+    );
   }
 
   /**
-   * Detects if the user has scrolled
+   * Calculates the difference between the 
    */
-  private userHasCanceledScroll(): boolean {
+  function calculateChange(): number {
+    return positionRelativeToBottom < window.innerHeight
+      ? getDocumentLength() - window.innerHeight - start
+      : position - start;
+  }
+
+  /**
+   * Checks if the user has scrolled during the animation
+   */
+  function userHasCanceledScroll(): boolean {
+    const animated = animation(time, start, change, timeOptions.duration);
+    const floor = Math.floor(animated);
+    const ceil = Math.ceil(animated);
     /**
      * window.scroll doesn't use decimals,
      * so we have round them both up and down
@@ -86,8 +66,8 @@ export default class Scroller {
      * the user has scrolled.
      */
     if (
-      window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
-      window.scrollY !== Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
+      window.scrollY !== floor &&
+      window.scrollY !== ceil
     ) {
       return true;
     }
@@ -98,8 +78,8 @@ export default class Scroller {
      * the user hasn't scrolled.
      */
     else if (
-      window.scrollY !== Math.floor(this.options.animation(this.time, this.start, this.change, this.options.time.duration)) &&
-      window.scrollY === Math.ceil(this.options.animation(this.time, this.start, this.change, this.options.time.duration))
+      window.scrollY !== floor &&
+      window.scrollY === ceil
     ) {
       return false;
     }
@@ -115,30 +95,36 @@ export default class Scroller {
    * Calculates if it should scroll to the
    * bottom of the page or to the anchor.
    */
-  private calculateChange(): number {
-    return this.positionRelativeToBottom < window.innerHeight
-      ? this.documentLength - window.innerHeight - this.start
-      : this.position - this.start;
-  }
-
-  /**
-   * Scrolls the page
-   */
-  private scroll(): void {
-    if (this.userHasCanceledScroll()) {
-      cancelAnimationFrame(this.animation);
+  function scroll(): void {
+    if (userHasCanceledScroll()) {
+      cancelAnimationFrame(animationFrame);
       return;
     }
 
-    this.time += this.options.time.increment;
+    time += timeOptions.increment;
 
     window.scroll(
       window.scrollX,
-      this.options.animation(this.time, this.start, this.change, this.options.time.duration)
+      animation(time, start, change, timeOptions.duration)
     );
 
-    if (this.time < this.options.time.duration) {
-      this.animation = requestAnimationFrame(this.scroll.bind(this));
+    if (time < timeOptions.duration) {
+      animationFrame = requestAnimationFrame(scroll);
     }
   }
+
+  function scrollTo(position: number): void {
+    // Reset everything
+    time = 0;
+    position = position;
+    positionRelativeToBottom = getDocumentLength() - position;
+    start = window.scrollY;
+    change = calculateChange();
+    animationFrame = requestAnimationFrame(scroll);
+  }
+  
+  return { scrollTo }  
 }
+
+export default Scroller;
+export { ScrollerMethods }
