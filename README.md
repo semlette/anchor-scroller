@@ -5,7 +5,7 @@
 * ... Scrolls to anchors
 * Stops scrolling if the user scrolls
 * Doesn't try to scroll past the end
-* It's only 3kb in size (1kb gzipped)
+* It's only 1.5kb in size (900 bytes gzipped 😆)
 * Uses `requestAnimationFrame` for smooth animation
 
 ## Quickstart
@@ -16,13 +16,13 @@ npm install anchor-scroller --save
 ```
 ```javascript
 const AnchorScroller = require("anchor-scroller");
-new AnchorScroller();
+AnchorScroller();
 ```
 
 ### Browser
 ```html
 <script src="https://unpkg.com/anchor-scroller@1.2.1/distribution/AnchorScroller.js"></script>
-<script>new AnchorScroller()</script>
+<script>AnchorScroller()</script>
 ```
 
 [Check out the wiki for more info.](https://github.com/semlette/anchor-scroller/wiki)
