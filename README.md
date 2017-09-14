@@ -21,7 +21,7 @@ AnchorScroller();
 
 ### Browser
 ```html
-<script src="https://unpkg.com/anchor-scroller@2.0.0/distribution/AnchorScroller.js"></script>
+<script src="https://unpkg.com/anchor-scroller@2.0.1/distribution/AnchorScroller.js"></script>
 <script>AnchorScroller()</script>
 ```
 
