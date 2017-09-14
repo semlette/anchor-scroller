@@ -23,7 +23,12 @@ interface Options {
   time: TimeOptions;
 }
 
-function AnchorScroller(userOptions?: Partial<Options>) {
+interface AnchorScrollerMethods {
+  scroll(to: number): void;
+  destroy(): void;
+}
+
+function AnchorScroller(userOptions?: Partial<Options>): AnchorScrollerMethods {
   const defaultAnimation: Animation = (time, start, change, duration) => {
     return (time /= duration / 2) < 1
       ? change / 2 * time * time * time + start

@@ -23,46 +23,16 @@ export interface Options {
   time: TimeOptions;
 }
 
-interface BoundEventHandlers {
-  click: EventListener;
+export interface AnchorScrollerMethods {
+  /**
+   * Scrolls to the given position
+   */
+  scroll(to: number): void;
+  destroy(): void;
 }
 
-declare class AnchorScroller {
-  constructor(options?: Partial<Options>);
-
-  private options: Options;
-
-  /**
-   * Bound event handlers
-   */
-  private handlers: BoundEventHandlers;
-
-  private scroller: ScrollerMethods;
-
-  /**
-   * Scrolls to given position
-   */
-  public scroll(position: number): void;
-
-  /**
-   * Removes all AnchorScroller related stuff
-   */
-  public destroy(): void;
-
-  /**
-   * Adds listeners
-   */
-  private addListeners(): void;
-
-  /**
-   * Removes all listeners
-   */
-  private removeListeners(): void;
-
-  /**
-   * Checks if the target `href` is pointing to an anchor
-   */
-  private check(event: Event): void;
-}
+declare function AnchorScroller(
+  options: Partial<Options>,
+): AnchorScrollerMethods;
 
 export default AnchorScroller;
