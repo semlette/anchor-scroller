@@ -1,6 +1,6 @@
-import babel from "rollup-plugin-babel";
 import typescript from "rollup-plugin-typescript2";
 import latestTypescript from "typescript";
+import minify from "rollup-plugin-babel-minify";
 
 export default {
   input: "source/AnchorScroller.ts",
@@ -17,9 +17,6 @@ export default {
       typescript: latestTypescript,
       importHelers: false,
     }),
-    babel({
-      babelrc: false,
-      presets: ["minify"],
-    }),
+    minify(),
   ],
 };
